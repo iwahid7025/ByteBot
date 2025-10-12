@@ -1,8 +1,5 @@
-from http.client import responses
-
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
-from scipy.ndimage import label
 
 stemmer = LancasterStemmer()
 
@@ -97,7 +94,7 @@ def bag_of_words(s, multi_word):
             if w == se:
                 bag[i] = 1
 
-        return numpy.array(bag)
+    return numpy.array(bag)
 
 def chat():
     print("Start talking with ByteBot! Type <quit> to stop")
@@ -110,10 +107,15 @@ def chat():
         results_index = numpy.argmax(results)
         tag = labels[results_index]
 
+        responses = []
         for tg in data["intents"]:
             if tg['tag'] == tag:
-                results = tg['responses']
+                responses = tg['responses']
+                break
 
-        print(random.choice(responses))
+        if responses:
+            print(random.choice(responses))
+        else:
+            print("I don't understand that.")
 
 chat()
